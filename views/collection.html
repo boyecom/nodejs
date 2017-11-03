@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>购Gogo 购优惠 购质量</title>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css">
+	
+</head>
+<style type="text/css">
+.collection .list-group-item{
+	position: relative;
+}
+.collection .list-group-item img{
+	width:100px;
+	height:80px;
+	border-radius: 5%;
+}
+.collection .index{
+	width: 20px;
+	display: inline-block;
+	font-size: 16px;
+	font-weight: 600;
+}
+.collection .name{
+	margin-left: 20px;
+	max-width: 700px;
+	display: inline-block;
+	font-size: 16px;
+	
+}
+.collection .time{
+	display: block;
+	position:absolute;
+	right:30px;
+	bottom:2px;
+	color:#337ab7;
+	font-size: 12px;
+}
+.collection .remove{
+	color:rgba(237, 61, 40, 0.7);
+	position: absolute;
+	right: 10px;
+}
+.collection .remove:hover{
+	color:red;
+
+}
+</style>
+<body ng-app="webapp">
+<% include base.html %>
+<script type="text/javascript" src='/collection.js'></script>
+<div class="collection" ng-controller='collectionCtrl'>
+	<div  class="list-group">
+
+		<div class="list-group-item" ng-repeat='d in datalist track by $index'>
+			
+			<span class="index" ng-bind="$index+1"></span>
+			<a ng-href="/detail/{{d.goods_id}}">
+				<img ng-src="{{d.goods[0].piclist[0]}}">
+				<span class="name" ng-bind='d.goods[0].name'></span>
+			</a>
+			<span class="time" ng-bind='"收藏时间："+format(d.create_date)' ></span>
+			<a href="javascript:void(0)" class="remove" ng-click='remove(d.goods_id,$index)'><span class="glyphicon glyphicon-remove"></span></a>
+			
+		</div>
+	</div>
+
+
+<button type="button" id="load"  ng-click='loading()' class="btn  btn-sm  btn-block">加载更多</button>
+</div>
+
+
+
+</body>
+</html>

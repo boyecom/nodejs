@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>购Gogo 购优惠 购质量</title>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css">
+	
+</head>
+<style type="text/css">
+
+#myCarousel .carousel-inner img{
+	height:300px !important;
+	width:100% !important;
+}
+#myCarousel	.carousel-control{
+	line-height: 300px;
+}
+.main{
+	width:100%;
+	height: 100%;
+	border-style: solid;
+	border-left-width: 40px;
+	border-right-width: 40px;
+	border-top-width:10px;
+	border-bottom-width:10px;
+	border-image: url(images/login.png) 20 30 round;
+	/*border-image:url(images/bg1.jpg) 30 30 round;*/
+}
+.alert.alert-info{
+	margin-top:2px;
+	margin-bottom:2px;
+	
+	border-radius:0;
+	border: none;
+	color: white;
+	
+}
+.box{
+	padding:1px;
+	flex-wrap:wrap; 
+	display: flex;
+	//justify-content:center; 
+}
+.box img:hover{
+	opacity:0.9;
+	filter:alpha(opacity=90);
+}
+
+.you-hui img{
+	border: 2px solid #890768;
+	width:200px;
+	height: 200px;
+}
+.tui-jian img{
+	border: 2px solid #470768;
+	width:300px;
+	height: 200px;
+}
+.hao-chi img{
+	border: 2px solid #389068;
+	width:300px;
+	height: 300px;
+}
+</style>
+<body ng-app="webapp">
+<% include base.html %>
+<script type="text/javascript" src='main.js'></script>
+<div ng-controller='mainCtrl' class="main">
+	<div id="myCarousel" class="carousel slide">
+		<!-- 轮播（Carousel）指标 -->
+		<ol class="carousel-indicators">
+			<li data-target="#myCarousel" ng-repeat='item in myCarousel track by $index' data-slide-to="{{$index}}" ng-class="{'active':$first}"></li>
+		</ol>   
+		<!-- 轮播（Carousel）项目 -->
+		<div class="carousel-inner">
+			<div class="item" ng-class="{'active':$first}" ng-repeat='item in myCarousel track by $index'>
+				<a href="{{item.url}}" ><img src="{{item.src}}"  alt="{{$index}}"></a>
+				<!-- <div class="carousel-caption">标题 1</div> -->
+			</div>
+			
+		</div>
+		<!-- 轮播（Carousel）导航 -->
+		<a class="carousel-control left" href="#myCarousel" 
+		   data-slide="prev" >&lsaquo;</a>
+		<a class="carousel-control right" href="#myCarousel" 
+		   data-slide="next">&rsaquo;</a>
+	</div> 
+
+	<div class="alert alert-info" style="background-color:#890768 "><p class="lead">购优惠</p></div>
+	<div class="you-hui box">
+		<div ng-repeat='item in youhui track by $index'>
+			<a href="{{item.url}}"><img src="{{item.src}}" alt="{{$index}}"/></a>
+		</div>
+		
+	</div>
+
+	
+	<div class="alert alert-info" style="background-color:#389068 "><p class="lead">购好吃</p></div>
+	<div class="hao-chi box">
+		<div ng-repeat='item in haochi track by $index'>
+			<a href="{{item.url}}"><img src="{{item.src}}" alt="{{$index}}"/></a>
+		</div>
+	</div>
+
+	<div class="alert alert-info" style="background-color:#470768 "><p class="lead">购推荐</p></div>
+	<div class="tui-jian box">
+		<div ng-repeat='item in tuijian track by $index'>
+			<a href="{{item.url}}"><img src="{{item.src}}" alt="{{$index}}"/></a>
+		</div>
+	</div>	
+
+</div>
+
+
+</body>
+</html>

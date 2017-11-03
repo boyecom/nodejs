@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>购Gogo 购优惠 购质量</title>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css">
+	
+</head>
+<style type="text/css">
+
+.kinds .list-nav{
+	position:fixed;
+	list-style-type: none;
+	width: 100px;
+	background:url(/images/login.png);
+	font-size: 20px;
+	color: white;
+	padding: 0;
+	margin: 0;
+	margin-top:100px;
+}
+.list-nav .item-nav{
+	cursor: pointer;
+	width:100px;
+	height:40px;
+	padding:10px;
+	margin:2px 0;
+	line-height:20px;
+	text-align: center;
+	background: #305f5f;
+}
+.food.active{
+	color: #8d8;
+	background: white;
+	font-weight: 600;
+}
+.wemanshoes.active,.wemanclose.active{
+	color: pink;
+	background: white;
+	font-weight: 600;
+}
+.manshoes.active,.manclose.active{
+	color: #56b8d8;
+	background: white;
+	font-weight: 600;
+}
+
+.box{
+	flex-wrap:wrap; 
+	display: flex;
+	
+}
+.goods-item{
+	margin: 5px;
+	padding: 10px 10px;
+	border-radius: 2px;
+	border:2px solid white;
+}
+.goods-item:hover{
+	border:2px solid #888;
+}
+.goods-item img{
+	border-radius: 2px;
+	width: 280px;
+	height:280px;
+}
+.goods-item .name{
+	display:block;
+	width: 280px;
+	height:40px;
+	color:#888;
+	padding: 5px;
+	font-size:14px;
+	padding: 2px;
+	overflow: hidden;
+}
+.goods-item .price{
+	display:block;
+	width: 280px;
+	height: 40px;
+	padding: 5px;
+	overflow: hidden;
+	font-size:25px;
+	color:red;
+	text-align:center;
+}
+
+</style>
+<body ng-app="webapp">
+<% include base.html %>
+<script type="text/javascript" src="/kinds.js"></script>
+<div class="kinds" ng-controller="kindsCtrl">
+	
+	<!-- 列表 -->
+	<ul class="list-nav">
+		<li class="item-nav food " ng-mouseenter="load(0)">吃&nbsp;&nbsp;货</li>
+		<li class="item-nav manshoes" ng-mouseenter="load(1)">男&nbsp;&nbsp;装</li>
+		<li class="item-nav wemanshoes" ng-mouseenter="load(2)">女&nbsp;&nbsp;装</li>
+		<li class="item-nav manclose" ng-mouseenter="load(3)">男&nbsp;&nbsp;鞋</li>
+		<li class="item-nav wemanclose" ng-mouseenter="load(4)">女&nbsp;&nbsp;鞋</li>
+	</ul>
+
+	<!-- 吃货 -->
+	<div ng-if='flag[0]' class=" box">
+		<div class="goods-item" ng-repeat='d in food' >
+			<a href="/detail/{{d.id}}" >
+				<img src="{{d.piclist[0]}}">
+				<span class="price" ng-bind="'￥'+d.price"></span>
+				<span class="name" ng-bind="d.name"></span>
+			</a>
+		</div>
+	</div>
+
+	<!-- 男装 -->
+	<div ng-if='flag[3]' class=" box">
+		<div class="goods-item" ng-repeat='d in manclose' >
+			<a href="/detail/{{d.id}}" >
+				<img src="{{d.piclist[0]}}">
+				<span class="price" ng-bind="'￥'+d.price"></span>
+				<span class="name" ng-bind="d.name"></span>
+			</a>
+		</div>
+	</div>
+
+	<!-- 女装 -->
+	<div ng-if='flag[4]' class=" box">
+		<div class="goods-item" ng-repeat='d in wemanclose' >
+			<a href="/detail/{{d.id}}" >
+				<img src="{{d.piclist[0]}}">
+				<span class="price" ng-bind="'￥'+d.price"></span>
+				<span class="name" ng-bind="d.name"></span>
+			</a>
+		</div>
+	</div>
+
+	<!-- 男鞋 -->
+	<div ng-if='flag[1]' class=" box">
+		<div class="goods-item" ng-repeat='d in manshoes' >
+			<a href="/detail/{{d.id}}" >
+				<img src="{{d.piclist[0]}}">
+				<span class="price" ng-bind="'￥'+d.price"></span>
+				<span class="name" ng-bind="d.name"></span>
+			</a>
+		</div>
+	</div>
+
+	<!-- 女鞋 -->
+	<div ng-if='flag[2]' class=" box">
+		<div class="goods-item" ng-repeat='d in wemanshoes' >
+			<a href="/detail/{{d.id}}" >
+				<img src="{{d.piclist[0]}}">
+				<span class="price" ng-bind="'￥'+d.price"></span>
+				<span class="name" ng-bind="d.name"></span>
+			</a>
+		</div>
+	</div>
+
+
+
+</div>
+
+</body>
+</html>

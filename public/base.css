@@ -1,0 +1,36 @@
+#head{
+	min-width: 935px;
+}
+a{
+	text-decoration: none !important;
+}
+#head .progress{
+	height: 3px;
+	margin: 0px;
+	top:0px;
+	z-index:1000;
+}
+#head .navbar.navbar-default{
+	margin-bottom:2px;
+}
+#head .navbar.navbar-default .navbar-header{
+	padding-right:50px;
+	font-family:Courier, "Courier New", monospace;
+}
+
+#head .input-group{
+	min-width:240px;
+	padding:8px 15px;
+	width:30%;
+}
+
+#head .input-group .input-group-addon{
+	cursor:pointer;
+}
+.hidden{
+	display: none;
+}
+
+.modal.fade.in {
+ top:5%;
+}

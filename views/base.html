@@ -1,0 +1,176 @@
+<!DOCTYPE html>
+<html>
+<head>
+	
+	<link rel="stylesheet" type="text/css" href="/lib/bootstrap/dist/css/bootstrap.css">
+	<link rel="stylesheet" type="text/css" href="/base.css">
+	
+</head>
+
+ <body ng-app="webapp"> 
+<div id="head" >
+	<div class="progress">
+	    <div class="progress-bar" role="progressbar"  id="progress-bar"
+	        aria-valuemin="0" aria-valuemax="100" style="width:0%;">
+	        
+	    </div>
+	</div>
+	<nav  class="navbar navbar-default" role="navigation"> 
+    	<div class="container-fluid" >
+		    <div class="navbar-header">
+		    	<img src="/images/logo1.png" style="height:50px;">
+		    </div>
+	    <div>
+        <ul class=" nav navbar-nav " ng-controller='headCtrl'>
+		  <li class="{{classAct.main}}"><a href="/main">首页</a></li>
+		  <li class="{{classAct.mycart}}"><a  href="/mycart">购物车</a></li>
+		  <li class="{{classAct.kinds}}"><a  href="/kinds">商品分类</a></li>
+		  <li class="{{classAct.collection}}"><a  href="/collection">收藏夹</a></li>
+		  <li  class="{{classAct.myorder}}"><a  href="/myorder">我的订单</a></li>
+
+		</ul>
+		<ul class=" nav navbar-nav navbar-right">  
+		<% if(!user) {%>
+            <li id="register"><a href="javascript:void(0)"><span class="glyphicon glyphicon-user"  ></span> 注册</a></li> 
+            <li><a href="/"><span class="glyphicon glyphicon-log-in"></span> 登录</a></li> 
+           <%}else{%>
+            <li id="setting"><a href="/setting"><span class="glyphicon glyphicon-cog"  ></span>&nbsp;<%=user.username%></a></li>
+            <li ><a href="/logout"><span class="glyphicon glyphicon-log-out"  ></span> 注销</a></li>
+          <%}%>
+        </ul>
+		<div class="input-group" >
+			<input type="text" class="form-control" id="input_search">
+			<span class="input-group-addon head-search">Search</span>
+		</div>
+    	 
+	</nav> 
+</div>
+<!-- register -->
+<div class="modal fade" id="regModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true" ng-controller="validateCtrl">
+	<div class="modal-dialog" >
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+				</button>
+
+				<h4 class="modal-title" id="myModalLabel">
+					
+					<img src="/images/logo1.png" style="height:20px;width:25px">
+					<span style="margin-left:10px;">用户注册(如果已有账号,请<a href="/">登录</a>)</span>
+				</h4>
+
+			</div>
+			<div class="modal-body">
+				<form class="form-horizontal" role="form" name="myForm" >
+
+				  <div class="form-group">
+				    <label for="username" class="col-sm-2 control-label " >用户名<span style="color:red">*</span></label>
+				    <div class="col-sm-5">
+				      <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名" ng-model="username" required ng-blur='usernameVal()'>
+				    </div>
+				   	<span style="color:red" ng-show="myForm.username.$dirty && myForm.username.$invalid">
+				  		<label class="control-label" ng-show="myForm.username.$error.required">用户名不能为空</label>
+				  	</span>
+				  	<label id="username-exist" class="control-label" style="color:red"></label>
+				  </div>
+				  <div class="form-group">
+				    <label for="password1" class="col-sm-2 control-label">密码<span style="color:red">*</span></label>
+				    <div class="col-sm-5">
+				      <input type="password" class="form-control" id="password1" name='password1' placeholder="请输入密码" ng-model="password1" required>
+				    </div>
+				    <span style="color:red" ng-show="myForm.password1.$dirty && myForm.password1.$invalid">
+				  		<label class="control-label" ng-show="myForm.password1.$error.required">密码不能为空</label>
+				  	</span>
+
+				  </div>
+
+				  <div class="form-group">
+				    <label for="password2" class="col-sm-2 control-label">确认密码<span style="color:red">*</span></label>
+				    <div class="col-sm-5">
+				      <input type="password" class="form-control" id="password2" name='password2' placeholder="请确认密码" ng-model="password2" required ng-blur='passwordVal()'>
+				    </div>
+				    <span style="color:red" ng-show="myForm.password2.$dirty && myForm.password2.$invalid">
+				  		<label class="control-label" ng-show="myForm.password2.$error.required">密码不能为空</label>
+				  	</span>
+				  		<label id="passwd-diff" class="control-label" style="color:red"></label>
+				  </div>
+				  <div class="form-group">
+				    <label for="phone" class="col-sm-2 control-label">手机</label>
+				    <div class="col-sm-5">
+				      <input type="text" class="form-control" id="phone" name='phone' placeholder="请输入11位手机号"
+				      ng-model="phone" ng-blur="phoneVal()">
+				    </div>
+				    <label id='phone-error' class="control-label" style="color:red"></label>
+				  </div>
+
+				  <div class="form-group">
+				    <label for="email" class="col-sm-2 control-label">邮箱</label>
+				    <div class="col-sm-5">
+				      <input type="email" class="form-control " id="email" name='email' placeholder="请输入邮箱" ng-model="email">
+				    </div>
+				    <span style="color:red" >
+				  		<label class="control-label" ng-show="myForm.email.$error.email">非法的邮箱</label>
+				  	</span>
+				  </div>
+				  <div class="form-group">
+				    <label for="address" class="col-sm-2 control-label">住址</label>
+				    <div class="col-sm-8">
+				      <textarea type="text" class="form-control " id="address" name='address'  ng-model="address"></textarea>
+				    </div>
+				    
+				  </div>
+				  
+				  <div id="reg-msg"></div>
+				</form>
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="button" id="reg-submit" class="btn btn-primary" ng-disabled='myForm.username.$dirty && myForm.username.$invalid || myForm.password1.$dirty && myForm.password1.$invalid || myForm.password2.$dirty && myForm.password2.$invalid ||myForm.email.$error.email' ng-click="userReg()" >
+					立即注册
+				</button>
+
+			</div>
+		</div>
+	</div>
+</div>
+<!-- setting -->
+<!-- <div class="modal fade" id="setModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+	<div class="modal-dialog">
+		<div class="modal-content">
+			<div class="modal-header">
+				<button type="button" class="close" data-dismiss="modal" aria-hidden="true">
+					&times;
+				</button>
+				<h4 class="modal-title" >
+					<img src="images/logo1.png" style="height:20px;width:25px">
+					<span style="margin-left:10px;">用户设置</span>
+				</h4>
+			</div>
+			<div class="modal-body">
+				在这里添加一些文本
+			</div>
+			<div class="modal-footer">
+				<button type="button" class="btn btn-default" data-dismiss="modal">关闭
+				</button>
+				<button type="button" class="btn btn-primary">
+					提交更改
+				</button>
+			</div>
+		</div>
+	</div>
+</div> -->
+
+<script type="text/javascript" src="/lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="/lib/angular/angular.min.js"></script>
+<script type="text/javascript" src="/lib/bootstrap/dist/js/bootstrap.js"></script>
+<!-- <script type="text/javascript" src="webapp.js"></script> -->
+<script type="text/javascript" src="/base.js"></script>
+
+<script type="text/javascript">
+	 document.getElementById("progress-bar").style.width='0px';
+ 	document.getElementById("progress-bar").style.width='100%';
+</script>
+
+</body>
+</html> 

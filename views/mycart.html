@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>购Gogo 购优惠 购质量</title>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css">
+	
+</head>
+<style type="text/css">
+@media all and (max-width: 850px) {
+	.mycart button.remove{
+		margin-left:5%;
+	}
+}
+@media all and (min-width: 851px) and (max-width:1199px){
+	.mycart button.remove{
+		margin-left:15%;
+	}
+}
+@media all and (min-width:1200px) {
+	.mycart button.remove{
+		margin-left:25%;
+	}
+}
+.mycart img{
+	width:200px;
+	border-radius: 3px;
+	max-width: 600px;
+	height: 150px;
+	margin-left:10px;
+}
+.mycart .list-group{
+	margin-bottom: 1px;
+}
+.mycart .list-group-item.select{
+	background:rgba(204, 215, 206, 0.52) !important;
+	font-weight: 700;
+}
+
+.mycart .list-group-item:hover{
+	background: rgba(12, 113, 40, 0.04);
+}
+.mycart .list-group-item:hover button.remove{
+	opacity:1.0;
+	filter:alpha(opacity=100);
+}
+.mycart .count{
+	display: inline-block;
+	margin-left:10%
+}
+.mycart .name{
+	display: inline-block;
+	margin-left:10px;
+	//width:350px;
+	width:25%;
+	font-size: 16px;
+	font-weight: 600;
+}
+.mycart .price{
+	font-size: 15px;
+	margin-left:10px;
+}
+.mycart button.remove{
+	color:#da3636;
+	//margin-left: 20%;
+	opacity:0.1;
+	filter:alpha(opacity=10);
+}
+.mycart button.remove:hover{
+	color:#f51414;
+	font-weight: 600;
+	transform:translate(1px,0px);
+}
+#myorder{
+	position:fixed;
+	right: 20px;
+	top: 70px;
+
+} 
+#momey{
+	margin-right: 10px;
+	font-size: 16px;
+	font-weight: 600;
+}
+#load{
+	margin-bottom: 10px;
+}
+</style>
+<body ng-app="webapp">
+<% include base.html %>
+<script type="text/javascript" src='mycart.js'></script>
+<div class="mycart" ng-controller='mycartCtrl'>
+<ul class="list-group" >
+    <!-- <li class="list-group-item">
+		<input type="checkbox" > <a href=""><img src="" /></a> 
+		<span class="count"> 
+			<a href="javascript:void(0)"><span class="glyphicon glyphicon-minus"></span></a> 
+				<span id='count'>12</span>
+		  <a href="javascript:void(0)"><span class="glyphicon glyphicon-plus"></span></a> 
+		</span>
+			<button type="button" class="btn remove" ><span class="glyphicon glyphicon-trash" ></span> 删除</button>
+	</li>
+    <li class="list-group-item">免费 Window 空间托管</li>
+    <li class="list-group-item">图像的数量</li>
+    <li class="list-group-item">24*7 支持</li>
+    <li class="list-group-item">每年更新成本</li> -->
+ <%for(var i=0;i<retdata.length;i++){%>
+ 
+    <li class="list-group-item ">
+		<input type="checkbox" ng-checked='false' > <a href="/detail/<%=retdata[i].url%>"><img src="<%=retdata[i].src%>" /></a> 
+		<span class="name"> <%=retdata[i].name%> </span>
+		<span class="price"><%=retdata[i].price%></span>
+		<div class="count"> 
+			<a href="javascript:void(0)"><span class="glyphicon glyphicon-minus" ></span></a> 
+				<span class="number"><%=retdata[i].count%></span> 
+				<!-- <span class="number" ng-init='name = <%=retdata[i].count%>' ng-bind='name'></span> -->
+		  <a href="javascript:void(0)"><span class="glyphicon glyphicon-plus"  ></span></a> 
+		</div>
+			<button type="button" class="btn remove" ><span class="glyphicon glyphicon-trash" ></span> 删除</button>
+	</li>
+<%}%>
+	
+
+	<!-- <li class="list-group-item" ng-if='loadflag' ng-repeat='d in retdata track by $index'>
+		<input type="checkbox" ng-checked='false' > <a ng-href="{{d.url}}"><img ng-src="{{d.src}}" /></a> 
+		<span class="name" ng-bind='d.name'> </span>
+		<span class="price" ng-bind='d.price'></span>
+		<div class="count"> 
+			<a href="javascript:void(0)"><span class="glyphicon glyphicon-minus" ></span></a> 
+				<span class="number" ng-bind='d.count'></span> 
+				
+		  <a href="javascript:void(0)"><span class="glyphicon glyphicon-plus"  ></span></a> 
+		</div>
+			<button type="button" class="btn remove" ><span class="glyphicon glyphicon-trash" ></span> 删除</button>
+	</li> -->
+
+
+
+
+
+
+
+
+
+
+</ul>
+	<div class="modal fade" id="myorderModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">订单提交</h4>
+            </div>
+            <div class="modal-body">
+            	<form class="form-horizontal" role="form" name="myForm" >
+				  <div class="form-group">
+				    <label for="firstname" class="col-sm-3 control-label " >收货人姓名<span style="color:red">*</span></label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="firstname" name="firstname" placeholder="请输入姓名" ng-model="firstname" >
+				    </div>
+				   
+				  </div>
+
+				 
+				  <div class="form-group">
+				    <label for="phone" class="col-sm-3 control-label">联系方式<span style="color:red">*</span></label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="phone" name='phone' placeholder="请输入手机号"
+				      ng-model="phone" >
+				    </div>
+				    
+				  </div>
+
+				  <div class="form-group">
+				    <label for="address" class="col-sm-3 control-label">收货地址<span style="color:red">*</span></label>
+				    <div class="col-sm-8">
+				      <input type="text" class="form-control" id="address" name='address' placeholder="请输入收货地址"
+				      ng-model="address" >
+				    </div>
+				   
+				  </div>
+				  
+				  <div class="form-group">
+				    <label for="other" class="col-sm-3 control-label">备注</label>
+				    <div class="col-sm-8">
+				      <textarea type="text" class="form-control " id="other" name='other'  ng-model="other"></textarea>
+				    </div>
+				    
+				  </div>
+				  
+				</form>
+
+
+            </div>
+            <div class="modal-footer">
+               <span id="momey"></span>
+                <button type="button" class="btn btn-primary" ng-click="submit()">确认提交</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+	<div id="myorder"><button type="button" class="btn btn-primary disabled" ng-click='receive()'>提交订单</button></div>
+	
+	<!-- <button type="button" id="load" name="5" ng-click='loading()' class="btn  btn-sm  btn-block">加载更多</button> --> 
+</div>
+
+
+</body>
+</html>

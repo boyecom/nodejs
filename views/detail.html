@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>购Gogo 购优惠 购质量</title>
+	<link rel="stylesheet" type="text/css" href="/lib/bootstrap/dist/css/bootstrap.css">
+	
+</head>
+<style type="text/css">
+@media all and (max-width: 850px) {
+	
+}
+@media all and (min-width: 851px) and (max-width:1199px){
+	
+}
+@media all and (min-width:1200px) {
+	
+}
+.box{
+	display: flex;
+	padding: 2px;
+}
+.left .main{
+	width: 350px;
+	height: 350px;
+
+}
+.left .child-img img{
+	width:80px;
+	height:80px;
+	margin-right:2px;
+	margin-top: 3px;
+	cursor: pointer;
+	
+}
+.left .child-img img:hover{
+	border:2px solid #882348;
+}
+.box .right{
+	margin-left:20px;
+}
+.right .name{
+	margin-top:10px;
+	font-size:18px;
+	max-width: 600px;
+	font-weight:600;
+	height: 23px;
+	overflow:hidden;
+	margin-bottom:10px;
+
+}
+.right .describe{
+	padding:5px 0;
+	max-width: 800px;
+}
+.right .preprice{
+	text-decoration:line-through;
+}
+.right .price{
+	
+	padding: 10px 0px;
+}
+.price .money{
+	font-size: 18px;
+	font-weight:600;
+	/*color:orange;*/
+	color:#2e6da4;
+}
+.right .discount,.right .number,
+.right .collection-count,.right .size{
+	margin:10px 0px;
+
+}
+.right .number .num{
+	color:#337ab7;
+}
+#mycart{
+	margin:10px 0;
+	//background:orange;
+	border-radius: 0;
+	border: none;
+	opacity:0.8;
+	filter:alpha(opacity=80);
+}
+#mycart:hover{
+	opacity:1.0;
+	filter:alpha(opacity=100);
+}
+
+#count{
+	display: inline-block;
+	width: 30px;
+	text-align: center;
+}
+.collection{
+	color:#e04646;
+	margin-left:20px;
+}
+.collection:hover,.collection:active{
+	color:red;
+}
+#myTabContent{
+	padding: 5px;
+}
+.select{
+	border: 2px solid #2e6da4 !important;
+
+}
+#loginmsg{
+	padding: 1px 5px;
+}
+#message{
+	position: absolute;
+	margin-top:35px;
+	right:0px;
+}
+</style>
+<body ng-app="webapp">
+<% include base.html %>
+<script type="text/javascript" src='/detail.js'></script>
+<div class="detail" ng-controller='detailCtrl'>
+	
+<div class ="box">
+	<div class="left">
+		<img class="main" src='<%=d[0].piclist[0]%>'>
+		<div class="child-img">
+		<% for(var i=0;i<d[0].piclist.length;i++){%>
+				<img src='<%=d[0].piclist[i]%>'>
+		<%}%>
+		</div>
+	</div>
+	<div class="right">
+		<div id="message" title="消息" data-container="body"  data-placement="left" data-content="">
+			
+		</div>
+		<div class="name"><%=d[0].name%></div>
+		<%if(d[0].typename=="food"){%>
+			<div class="describe"><%=d[0].describe%></div>
+		<%}%>
+		<%if(d[0].discount <1){%>
+			<div ><span class="preprice">原价￥：<%=Math.floor(d[0].price/ d[0].discount*100)/100%></span>
+				<span class="label label-primary">优惠：<%=Math.floor(d[0].discount*100)/10%>折</span>
+			</div>
+		<%}else{%>
+		<div >原价￥：<%=d[0].price%>
+			<span class="label label-primary">优惠：原价</span>
+		</div>
+		<%}%>
+		<div class="price">购价￥：<span class="money"><%=d[0].price%></span></div>
+		
+		<div class="number">库存：&nbsp;<span class="num"><%=d[0].number%></span></div>
+		<div class="collection-count">
+			<a href="javascript:void(0)"><span class="glyphicon glyphicon-minus" ng-click='reduce()'></span></a> 
+			<span id="count" ng-bind="count">1</span>
+			<a href="javascript:void(0)"><span class="glyphicon glyphicon-plus" ng-click='add()' ></span></a>
+			<span  class="collection" ng-click='addcollection()' title="加入收藏夹"><span class="glyphicon glyphicon-heart"></span></span>
+		</div>
+		<div>
+		<% if(d[0].typename=="manclose"||d[0].typename=="wemanclose"){ %>
+		<div class="size">
+			<div class="btn-group" data-toggle="buttons">
+				<label class="btn btn-default active select">
+					<input type="checkbox"> S
+				</label>
+				<label class="btn btn-default">
+					<input type="checkbox"> M
+				</label>
+				<label class="btn btn-default">
+					<input type="checkbox"> L
+				</label>
+				<label class="btn btn-default">
+					<input type="checkbox"> XL
+				</label>
+				<label class="btn btn-default">
+					<input type="checkbox"> XXL
+				</label>
+				<label class="btn btn-default">
+					<input type="checkbox"> XXXL
+				</label>
+				
+			</div>
+		</div>
+		<%}%>
+		<% if(d[0].typename=="manshoes"||d[0].typename=="wemanshoes"){ %>
+		<div class="size">
+			<div class="btn-group" data-toggle="buttons">
+				<label class="btn btn-default active select">
+					<input type="checkbox"> 38
+				</label>
+				<label class="btn btn-default">
+					<input type="checkbox"> 39
+				</label>
+				<label class="btn btn-default">
+					<input type="checkbox"> 40
+				</label>
+				<label class="btn btn-default">
+					<input type="checkbox"> 41
+				</label>
+				<label class="btn btn-default">
+					<input type="checkbox"> 42
+				</label>
+				<label class="btn btn-default">
+					<input type="checkbox"> 43
+				</label>
+				
+			</div>
+		</div>
+		<%}%>
+
+
+
+
+
+		<button id="mycart" type="button" class="btn btn-primary" ng-click='addmycart()' >
+		<span class="glyphicon glyphicon-shopping-cart"></span>
+		加入购物车</button>
+		
+		<ul id="myTab" class="nav nav-tabs">
+		<%if(d[0].typename!="food"){%>
+			<li class="active"><a href="#comment0" data-toggle="tab">商品介绍</a></li>
+			<li><a href="#comment1" data-toggle="tab">好评<%=d[0].comment[0]%></a></li>
+		<%}else{%>
+			<li class="active"><a href="#comment1" data-toggle="tab">好评<%=d[0].comment[0]%></a></li>
+		<%}%>
+			
+			<li><a href="#comment2" data-toggle="tab">中评<%=d[0].comment[1]%></a></li>
+			<li><a href="#comment3" data-toggle="tab">差评<%=d[0].comment[2]%></a></li>
+
+		</ul>
+		<div id="myTabContent" class="tab-content">
+		<%if(d[0].typename!="food"){%>
+			<div class="tab-pane fade in active" id="comment0">
+				<img src="<%=d[0].describe%>">
+			</div>
+			<div class="tab-pane fade " id="comment1">
+				<p>好评如潮，快来购Gogo抢购吧！</p>
+			</div>
+		<%}else{%>
+			<div class="tab-pane fade in active" id="comment1">
+				<p>好评如潮，快来购Gogo抢购吧！</p>
+			</div>
+		<%}%>
+			
+			<div class="tab-pane fade" id="comment2">
+				<p>暂无^_^</p>
+			</div>
+			<div class="tab-pane fade" id="comment3">
+				<p>暂无^_^</p>
+			</div>
+			
+			
+		</div>
+
+
+
+   </div>
+	</div>
+</div>
+
+
+	<div class="modal fade" id="loginModal" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-hidden="true">&times;</button>
+                <h4 class="modal-title" id="myModalLabel">用户登录</h4>
+            </div>
+            <div class="modal-body">
+            	<form class="form-horizontal" role="form" name="myForm" >
+				  <div class="form-group">
+				    <label for="username" class="col-sm-2 control-label " >用户名<span style="color:red">*</span></label>
+				    <div class="col-sm-6">
+				      <input type="text" class="form-control" id="username" name="username" placeholder="请输入用户名" ng-model="username" >
+				    </div>
+				   
+				  </div>
+
+				 
+				  <div class="form-group">
+				    <label for="password" class="col-sm-2 control-label">密码<span style="color:red">*</span></label>
+				    <div class="col-sm-6">
+				      <input type="password" class="form-control" id="password" name='password' placeholder="请输入密码"
+				      ng-model="password" >
+				    </div>
+				    
+				  </div>
+
+				 
+				  
+				</form>
+
+
+            </div>
+            <div id="loginmsg">
+            	
+            </div>
+            
+            <div class="modal-footer">
+               <button type="button" class="btn btn-default" data-dismiss="modal">关闭</button>
+               <button type="button" class="btn btn-primary" ng-click="login()">登录</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+
+
+
+
+
+</div> 
+</body>
+</html>

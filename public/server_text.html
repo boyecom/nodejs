@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>home</title>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css">
+	
+</head>
+
+ <button type="button" class="btn btn-primary">原始按钮</button>
+
+<script type="text/javascript" src="lib/jquery/dist/jquery.js"></script>
+<script type="text/javascript" src="lib/angular/angular.js"></script>
+
+<script type="text/javascript" src="lib/bootstrap/dist/js/bootstrap.js"></script>
+<script type="text/javascript" src="lib/moment/moment.js"></script>
+<script type="text/javascript" src="webapp.js"></script>
+<script type="text/javascript" src="services/news.client.service.js"></script>
+<script type="text/javascript" src="controllers/news.client.login.js"></script>
+<script type="text/javascript">
+$(function(){
+	$("button").click(function(){
+		$.post('/login',{title:"new book",content:"spa"},function(data){
+			console.log(data)
+		});
+	});
+	
+});
+</script>
+
+</body>
+</html>

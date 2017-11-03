@@ -1,0 +1,191 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>购Gogo 购优惠 购质量</title>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css">
+</head>
+<style type="text/css">
+#setsave{
+	position: absolute;
+	right: 10px;
+	top:67px;
+}
+.contain{
+	padding:2px 10%;
+}
+.glyphicon.glyphicon-remove{
+	opacity:0.1;
+	filter:alpha(opacity=10);
+	color:#cf6565;
+	cursor:pointer;
+	margin-right:5px;
+}
+
+.list-group-item:hover .glyphicon.glyphicon-remove,.list-group-item:hover #defaultaddr{
+	opacity:0.4;
+	filter:alpha(opacity=40);
+}
+.addaddr{
+	margin-left:10px;
+}
+
+.glyphicon.glyphicon-remove:hover{
+	color:red !important;
+	opacity:1.0 !important;
+	filter:alpha(opacity=100) !important;
+}
+#defaultaddr{
+	padding:2px;
+	margin-left:25px;
+	opacity:0.1;
+	filter:alpha(opacity=10);
+}
+#defaultaddr:hover{
+	opacity:1.0 !important;
+	filter:alpha(opacity=100) !important;
+	font-weight: 700;
+}
+ol.breadcrumb{
+	margin-bottom:2px;
+}
+
+#setMsg{
+	margin-left: 2px;
+	margin-right: 2px;
+}
+</style>
+
+<body ng-app="webapp">
+	<% include base.html %>
+
+	<ol class="breadcrumb">
+	    <h4><a href="javascript:void(0)">设置页面</a></h4>
+	</ol>
+	<div id="setMsg" >
+		
+	</div>
+
+	<div class="contain" ng-controller='setCrt'>
+		<button id="setsave" ng-click='setsave()' type="button" class="btn btn-primary">保存设置</button>
+		<label>基本信息</label>
+        <form class="form-horizontal" role="form" name="myForm" >
+		  <div class="form-group">
+		    <label for="firstname" class="col-sm-2 control-label " >姓名</label>
+		    <div class="col-sm-5">
+		      <input type="text" class="form-control" id="firstname" name="firstname" placeholder="请输入姓名" ng-model="firstname" >
+		    </div>
+		   
+		  </div>
+
+		  <div class="form-group">
+		    <label for="age" class="col-sm-2 control-label">年龄</label>
+		    <div class="col-sm-5">
+		      <input type="text" class="form-control" id="age" name='age' placeholder="请输入年龄"
+		      ng-model="age" >
+		    </div> 
+		  </div>
+
+
+		  <div class="form-group">
+		    <label for="phone" class="col-sm-2 control-label">手机</label>
+		    <div class="col-sm-5">
+		      <input type="text" class="form-control" id="phone" name='phone' placeholder="请输入手机号"
+		      ng-model="phone" ng-blur="phoneVal()">
+		    </div>
+		    <label id='phone-error' class="control-label" style="color:red"></label>
+		  </div>
+
+		  <div class="form-group">
+		    <label for="email" class="col-sm-2 control-label">邮箱</label>
+		    <div class="col-sm-5">
+		      <input type="email" class="form-control " id="email" name='email' placeholder="请输入邮箱" ng-model="email">
+		    </div>
+		   
+		  </div>
+		  <div class="form-group">
+		    <label for="address" class="col-sm-2 control-label">住址</label>
+		    <div class="col-sm-8">
+		      <textarea type="text" class="form-control " id="address" name='address'  ng-model="address"></textarea>
+		    </div>
+		    
+		  </div>
+		  
+		</form>
+		
+		<label >收货地址管理(最多十个)</label>
+		<button type="button" ng-click="addAddr()" class="btn btn-primary btn-xs addaddr" ><span class="glyphicon glyphicon-plus" ></span>新增地址</button>
+		<div class="list-group">
+	    
+	      <input type="text" class="form-control "  name='email' placeholder="输入新地址" ng-model="newaddr">
+	  </div>
+			 
+		<ul class="list-group" >
+			<li class="list-group-item" ng-repeat='addr in addrList track by $index'><span ng-click='addrList.splice($index,1)' class="glyphicon glyphicon-remove" ></span> {{addr}}<span ng-if='$first'><b>(默认地址)</b></span> <button ng-if='!$first' type="button" class="btn " ng-click='setdefaultaddr($index)' id="defaultaddr">设置为默认地址</button> </li>
+		</ul>
+
+
+    </div>
+  <script type="text/javascript">
+	angular.module('webapp')
+	.controller("setCrt",function($scope,$http){
+		$scope.firstname="";
+		$scope.age="";
+		$scope.phone="";
+		$scope.email="";
+		$scope.address="";
+		$scope.newaddr="";
+		$scope.addrList=[];
+
+		$scope.getUserInfo=function(){
+			$http.post("/getUserInfo").then(function(d){
+				var retdata=d.data;
+				$scope.firstname=retdata['firstname'];
+				$scope.age=retdata['age'];
+				$scope.phone=retdata['phone'];
+				$scope.email=retdata['email'];
+				$scope.address=retdata['address'];
+				$scope.addrList=retdata['addrList']
+			});
+
+		}
+		
+		$scope.getUserInfo();
+
+		$scope.setdefaultaddr=function(index){
+			var b=$scope.addrList.splice(index,1);
+			$scope.addrList.splice(0,0,b[0]);
+		}
+		$scope.addAddr=function(){
+			if($scope.newaddr==""||$scope.addrList.length>=10){
+				return false;
+			}
+			$scope.addrList.push($scope.newaddr);
+		}
+		$scope.setsave=function(){
+			$http.post("/setting",{
+				firstname:$scope.firstname,
+				age:$scope.age,
+				phone:$scope.phone,
+				email:$scope.email,
+				address:$scope.address,
+				addrList:$scope.addrList
+			}).then(function(res){
+				var OsetMsg=document.getElementById("setMsg");
+				if(res.data=="ok"){
+					OsetMsg.innerHTML='<div class="alert alert-success">\
+						<a href="#" class="close" data-dismiss="alert">&times;</a>\
+						<strong>保存成功!</strong></div>';
+						
+				}else{
+					OsetMsg.innerHTML='<div  class="alert alert-warning">\
+					<a href="#" class="close" data-dismiss="alert">&times;</a>\
+					<strong>保存失败!</strong></div>'
+				}
+			});
+		}
+
+	});
+</script> 
+
+</body>
+</html>

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>购Gogo 购优惠 购质量</title>
+	<link rel="stylesheet" type="text/css" href="lib/bootstrap/dist/css/bootstrap.css">
+	
+</head>
+<style type="text/css">
+@media all and (max-width: 850px) {
+	.panel-heading .name{
+		width:20%;
+		
+	}
+}
+@media all and (min-width: 851px) and (max-width:1199px){
+	.panel-heading .name{
+		width:30%;
+		
+	}
+}
+@media all and (min-width:1200px) {
+	.panel-heading .name{
+		width:45%;
+		
+	}
+}
+
+.myorder .panel-group  a{
+	text-decoration:none;
+}
+.myorder .panel-group a:hover{
+	color:#666666;
+}
+.panel-heading img{
+	width:150px;
+	height:150px;
+} 
+.panel-heading .name{
+	margin-left:10px;
+	display: inline-block;
+	font-size: 16px;
+	font-weight: 600;
+}
+.myorder .form-horizontal .form-group{
+	padding-top:0px;
+	margin: 0px;
+}
+ .panel-body .order-group {
+	display:flex;
+	flex-wrap:wrap;
+	color:#1f81e3;
+	font-size: 15px;
+	font-family: "Microsoft YaHei","Arial","黑体","宋体",sans-serif;
+	
+}
+.panel-body .order-group .order-item{
+	padding: 2px;
+	background:url(images/login.png);
+	width: 206px;
+	height: 147px;
+	margin: 2px;
+	border-radius:2px;
+}
+.order-group .order-item .item-name{
+	height:25px;
+	overflow:hidden;
+	padding:2px;
+}
+.panel-body .order-group img{
+	width:200px;
+	height: 120px;
+	border-radius:2px;
+
+}
+</style>
+<body ng-app="webapp">
+<% include base.html %>
+<script type="text/javascript" src='myorder.js'></script>
+<div class="myorder" ng-controller='myorderCtrl'>
+	<div class="panel-group " >
+
+
+		<div class="panel panel-default" ng-repeat='d in datalist track by $index'>
+			<div class="panel-heading">
+			<h4 ng-bind='format(d.create_date)'></h4>
+			
+				<a href='/detail/{{d.goodslist[0].id}}'><img src="{{d.goodslist[0].piclist[0]}}" ></a>
+				<span class="name" ng-bind="d.goodslist[0].name+'等...'"></span>
+				<span ng-bind="'总金额￥：'+d.momey"></span>
+				
+				<a data-toggle="collapse" data-parent="#accordion" 
+			href="#collapse{{$index}}">
+			详情
+			</a>
+			</div>
+			<div id="collapse{{$index}}" class="panel-collapse collapse">
+				<div class="panel-body">
+					<div class='order-group'>
+						<div class="order-item" ng-repeat='g in d.goodslist track by $index' ng-if="!$first">
+							<a href='/detail/{{g.id}}'><img src="{{g.piclist[0]}}" ></a>
+							<div class="item-name" ng-bind="g.name"></div>
+						</div>
+						
+					</div>
+
+
+
+					<form class="form-horizontal" role="form" name="myForm" >
+					  <div class="form-group">
+					    <label  class=" control-label " >收货人姓名：</label>
+					     <label  class=" control-label " ng-bind="d.name"></label>
+					  </div>
+					  <div class="form-group">
+					    <label  class=" control-label " >收货地址：</label>
+					    <label  class=" control-label" ng-bind='d.address'></label>
+					  </div>
+					  <div class="form-group">
+					    <label  class=" control-label " >联系方式：</label>
+					    <label  class=" control-label" ng-bind='d.phone'></label>
+					  </div>
+					  <div class="form-group">
+					    <label  class=" control-label " >备注：</label>
+					    <label  class=" control-label" ng-bind='d.other'></label>
+					  </div>
+					  
+					</form>
+					
+
+				</div>
+			</div>
+		</div> 
+
+
+		<div class="panel panel-default" ng-repeat='d in loadlist track by $index' ng-if='loadflag'>
+			<div class="panel-heading">
+			<h4 ng-bind='format(d.create_date)'></h4>
+			
+				<a href='/detail/{{d.goodslist[0].id}}'><img src="{{d.goodslist[0].piclist[0]}}" ></a>
+				<span class="name" ng-bind="d.goodslist[0].name+'等...'"></span>
+				<span ng-bind="'总金额￥：'+d.momey"></span>
+				
+				<a data-toggle="collapse" data-parent="#accordion" 
+			href="#collapse1{{$index}}">
+			详情
+			</a>
+			</div>
+			<div id="collapse1{{$index}}" class="panel-collapse collapse">
+				<div class="panel-body">
+					<div class='order-group'>
+						<div class="order-item" ng-repeat='g in d.goodslist track by $index' ng-if="!$first">
+							<a href='/detail/{{g.id}}'><img src="{{g.piclist[0]}}" ></a>
+							<div class="item-name" ng-bind="g.name"></div>
+						</div>
+						
+					</div>
+
+
+
+					<form class="form-horizontal" role="form" name="myForm" >
+					  <div class="form-group">
+					    <label  class=" control-label " >收货人姓名：</label>
+					     <label  class=" control-label " ng-bind="d.name"></label>
+					  </div>
+					  <div class="form-group">
+					    <label  class=" control-label " >收货地址：</label>
+					    <label  class=" control-label" ng-bind='d.address'></label>
+					  </div>
+					  <div class="form-group">
+					    <label  class=" control-label " >联系方式：</label>
+					    <label  class=" control-label" ng-bind='d.phone'></label>
+					  </div>
+					  <div class="form-group">
+					    <label  class=" control-label " >备注：</label>
+					    <label  class=" control-label" ng-bind='d.other'></label>
+					  </div>
+					  
+					</form>
+					
+
+				</div>
+			</div>
+		</div>
+
+
+		<button type="button" id="load"  ng-click='loading()' class="btn  btn-sm  btn-block">加载更多</button>
+
+
+
+
+
+
+
+
+
+
+
+	</div>
+</div>
+</body>
+</html>

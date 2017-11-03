@@ -1,0 +1,13 @@
+.progress{
+	height: 3px;
+	margin: 0px;
+	top:0px;
+	z-index:1000;
+}
+.navbar.navbar-default{
+	margin-bottom:2px;
+}
+.navbar.navbar-default .navbar-header{
+	padding-right:50px;
+	font-family:Courier, "Courier New", monospace;
+}
